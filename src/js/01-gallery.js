@@ -1,14 +1,14 @@
-// Import the SimpleLightbox class installed via npm
+// import the SimpleLightbox class installed via npm
 import SimpleLightbox from 'simplelightbox';
-// Import the CSS style for SimpleLightbox
+// import the CSS style for SimpleLightbox
 import 'simplelightbox/dist/simple-lightbox.min.css';
-// Import the array of objects with gallery data
+// import the array of objects with gallery data
 import { galleryItems } from './gallery-items';
 
-// Select the list element where gallery items will be added
+// select the list element where gallery items will be added
 const ulGallery = document.querySelector('.gallery');
 
-// Create list items based on data from the galleryItems array
+// create list items based on data from the galleryItems array
 const liGallery = galleryItems.map(item => `
   <li>
     <a class="gallery__item" href="${item.original}">
@@ -17,10 +17,10 @@ const liGallery = galleryItems.map(item => `
   </li>`
 ).join('');
 
-// Set the created elements inside the list element
+// set the created elements inside the list element
 ulGallery.innerHTML = liGallery;
 
-// Initialize SimpleLightbox with selected options
+// initialize SimpleLightbox with selected options
 const lightboxOptions = {
   captions: true,
   captionSelector: 'img',
