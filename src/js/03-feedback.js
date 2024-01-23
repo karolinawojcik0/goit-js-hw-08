@@ -7,6 +7,7 @@ const messageInput = form.elements['message'];
 // local storage keys
 const emailLocalStorageKey = 'feedback-form-email';
 const messageLocalStorageKey = 'feedback-form-message';
+const obj = {};
 
 // setting initial values from local storage
 emailInput.value = localStorage.getItem(emailLocalStorageKey) ?? '';
