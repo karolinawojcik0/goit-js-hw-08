@@ -1,39 +1,43 @@
-// throttle funcion
+// throttle function
 const throttle = require('lodash.throttle');
 // form and input elements
 const form = document.querySelector('.feedback-form');
 const emailInput = form.elements['email'];
 const messageInput = form.elements['message'];
-// local storage keys
-const emailLocalStorageKey = 'feedback-form-email';
-const messageLocalStorageKey = 'feedback-form-message';
+// local storage key
+const formStateLocalStorageKey = 'feedback-form-state';
 const obj = {};
 
 // setting initial values from local storage
-emailInput.value = localStorage.getItem(emailLocalStorageKey) ?? '';
-messageInput.value = localStorage.getItem(messageLocalStorageKey) ?? '';
+const storedFormState = JSON.parse(localStorage.getItem(formStateLocalStorageKey)) || {};
+emailInput.value = storedFormState.email || '';
+messageInput.value = storedFormState.message || '';
 
-//input event listener with throttle
+// input event listener with throttle
 form.addEventListener(
   'input',
   throttle(e => {
-    const localStorageKey =
-      e.target.name === 'email' ? emailLocalStorageKey : messageLocalStorageKey;
-    localStorage.setItem(localStorageKey, e.target.value);
+    const formState = {
+      ...JSON.parse(localStorage.getItem(formStateLocalStorageKey)) || {},
+      [e.target.name]: e.target.value.trim(),
+    };
+    localStorage.setItem(formStateLocalStorageKey, JSON.stringify(formState));
   }, 500)
 );
 
-//form submit event listener
+// form submit event listener
 form.addEventListener('submit', e => {
   e.preventDefault();
-  if (emailInput.value === '' || messageInput.value === '') {
-    alert('fill the textboxes');
+  const trimmedEmail = emailInput.value.trim();
+  const trimmedMessage = messageInput.value.trim();
+
+  if (trimmedEmail === '' || trimmedMessage === '') {
+    alert('Fill the textboxes');
   } else {
-    obj.email = emailInput.value;
-    obj.message = messageInput.value;
+    obj.email = trimmedEmail;
+    obj.message = trimmedMessage;
     console.log(obj);
-    localStorage.removeItem(emailLocalStorageKey);
-    localStorage.removeItem(messageLocalStorageKey);
+    localStorage.removeItem(formStateLocalStorageKey);
   }
   form.reset();
 });
